@@ -1,4 +1,11 @@
-var express = require('express');
+var express = require('express')
+	mongoose = require('mongoose');
+
+	
+var db = mongoose.connect('mongodb://localhost/thoughtOfDay');
+
+var thought = require('./models/thoughtModel');
+
 
 var app = express();
 
@@ -7,18 +14,16 @@ app.get('/', function(req, res){
 });
 
 var thoughtsRouter = express.Router();
-thoughtsRouter.route('/thoughts')
+	thoughtsRouter.route('/thoughts')
 			  .get(function(req, res){
-				  var thoughts = [{'thought':'What a lovely weather',
-				  'date':'2015/08/21'},
-				  {'thought':'What a lovely day',
-				  'date':'2015/08/20'},
-				  {'thought':'What a lovely girl',
-				  'date':'2015/08/19'},
-				  {'thought':'What a lovely boy',
-				  'date':'2015/08/18'}];
-				  res.json({thoughts:thoughts});
-			  });
+				  thought.find(function(err, thoughts){
+					  if(err)
+						  res.status(500).send(err);
+					  else
+						  res.json(thoughts);
+				  });
+});
+
 app.use('/api', thoughtsRouter);
 
 app.listen(3000, function()

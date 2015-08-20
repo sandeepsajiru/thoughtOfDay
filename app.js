@@ -9,8 +9,15 @@ app.get('/', function(req, res){
 var thoughtsRouter = express.Router();
 thoughtsRouter.route('/thoughts')
 			  .get(function(req, res){
-				  res.json({'thought':'What a lovely weather',
-				  'date':'2015/08/21'});
+				  var thoughts = [{'thought':'What a lovely weather',
+				  'date':'2015/08/21'},
+				  {'thought':'What a lovely day',
+				  'date':'2015/08/20'},
+				  {'thought':'What a lovely girl',
+				  'date':'2015/08/19'},
+				  {'thought':'What a lovely boy',
+				  'date':'2015/08/18'}];
+				  res.json({thoughts:thoughts});
 			  });
 app.use('/api', thoughtsRouter);
 
